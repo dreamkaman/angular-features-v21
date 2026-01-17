@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import {UnusedDirective} from './unused';
 
 @Component({
   selector: 'app-root',
