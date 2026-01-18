@@ -1,4 +1,8 @@
-export enum currencies {
-  'USD',
-  'EUR',
-}
+export interface ICurrency {
+    ccy: string,
+    base_ccy: string,
+    buy: number,
+    sale: number
+  }
+  
+export type Currencies = ICurrency[];
