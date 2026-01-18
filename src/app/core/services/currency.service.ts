@@ -1,5 +1,5 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Currencies } from '../../types/currencies';
 import { catchError, throwError } from 'rxjs';
 
@@ -7,8 +7,9 @@ import { catchError, throwError } from 'rxjs';
   providedIn: 'root',
 })
 export class CurrencyService {
-  private readonly URL =
-    '/api/p24api/pubinfo?json&exchange&coursid=5';
+  private readonly URL = '/api/p24api/pubinfo?json&exchange&coursid=5';
+
+  private currencies = signal<Currencies>([]);
 
   constructor(private httpClient: HttpClient) {}
 
@@ -26,5 +27,9 @@ export class CurrencyService {
         return throwError(() => new Error(errorMessage));
       }),
     );
+  }
+
+  setCurrencies(newCurrencies: Currencies) {
+    this.currencies.set(newCurrencies);
   }
 }
