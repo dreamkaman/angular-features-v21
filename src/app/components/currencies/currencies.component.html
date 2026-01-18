@@ -1,2 +1,14 @@
-<p class="text-sm w-max text-fuchsia-800">Hello</p>
-<p>{{ currencies()[0].ccy }}</p>
+<table class="font-bold border text-[10px] ">
+  <thead class="bg-red-600">
+    <th class="p-2 border text-amber-50">Currency</th>
+    <th class="p-2 border text-amber-50">Buy</th>
+    <th class="p-2 border text-amber-50">Sale</th>
+  </thead>
+  @for (currency of currencies(); track $index) {
+    <tr class="text-[10px]">
+      <td class="p-2 border">{{ currency.ccy }}</td>
+      <td class="p-2 border">{{ currency.buy }}</td>
+      <td class="p-2 border">{{ currency.sale }}</td>
+    </tr>
+  }
+</table>

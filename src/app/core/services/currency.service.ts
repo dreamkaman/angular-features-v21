@@ -8,7 +8,7 @@ import { catchError, throwError } from 'rxjs';
 })
 export class CurrencyService {
   private readonly URL =
-    '/p24api/pubinfo?json&exchange&coursid=5';
+    '/api/p24api/pubinfo?json&exchange&coursid=5';
 
   constructor(private httpClient: HttpClient) {}
 
