@@ -1,35 +1,30 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 import { Currencies } from '../../types/currencies';
-import { catchError, throwError } from 'rxjs';
+import { catchError, tap, throwError } from 'rxjs';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable({ providedIn: 'root' })
 export class CurrencyService {
-  private readonly URL = '/api/p24api/pubinfo?json&exchange&coursid=5';
+  private readonly URL =
+    '/api/p24api/pubinfo?json&exchange&coursid=5';
 
-  private currencies = signal<Currencies>([]);
+  private readonly _currencies = signal<Currencies>([]);
 
-  constructor(private httpClient: HttpClient) {}
+  readonly currencies = this._currencies.asReadonly();
 
-  getCurrencies() {
-    return this.httpClient.get<Currencies>(this.URL).pipe(
-      catchError((error: HttpErrorResponse) => {
-        let errorMessage = 'Невідома помилка';
+  constructor(private http: HttpClient) {}
 
-        if (error.error instanceof ErrorEvent) {
-          errorMessage = `Client error: ${error.error.message}`;
-        } else {
-          errorMessage = `Server error (${error.status}): ${error.message}`;
-        }
-
-        return throwError(() => new Error(errorMessage));
-      }),
+  loadCurrencies() {
+    return this.http.get<Currencies>(this.URL).pipe(
+      tap((data) => this._currencies.set(data)),
+      catchError(this.handleError),
     );
   }
 
-  setCurrencies(newCurrencies: Currencies) {
-    this.currencies.set(newCurrencies);
+  private handleError(error: HttpErrorResponse) {
+    const message =
+      error.error?.message ??
+      `HTTP ${error.status}: ${error.statusText}`;
+    return throwError(() => new Error(message));
   }
 }
