@@ -20,11 +20,61 @@ export class CurrencyService {
     );
   }
 
-  calculate(iHave: string, iNeed: string) {
-    const iHaveCurrency = this.currencies().filter((currency) => currency.ccy === iHave);
-    const iNeedCurrency = this.currencies().filter((currency) => currency.ccy === iNeed);
-    
-    return;
+  calculate({
+    iHaveCurrency,
+    iHaveSum,
+    iNeedCurrency,
+  }: {
+    iHaveCurrency: string;
+    iHaveSum: number;
+    iNeedCurrency: string;
+  }) {
+    if (
+      iHaveCurrency !== 'UAH' &&
+      iNeedCurrency !== 'UAH' &&
+      iHaveCurrency !== iNeedCurrency
+    ) {
+      const iNeedCurrencyInfo = this.currencies().find(
+        (currency) => currency.ccy === iNeedCurrency,
+      );
+      const iHaveCurrencyInfo = this.currencies().find(
+        (currency) => currency.ccy === iHaveCurrency,
+      );
+
+      if (!iNeedCurrencyInfo || !iHaveCurrencyInfo) {
+        return 0;
+      }
+
+      return (iHaveSum * iHaveCurrencyInfo.buy) / iNeedCurrencyInfo.sale;
+    }
+
+    if (iHaveCurrency !== 'UAH' && iNeedCurrency === 'UAH') {
+
+      const iHaveCurrencyInfo = this.currencies().find(
+        (currency) => currency.ccy === iHaveCurrency,
+      );
+
+      console.log(iHaveCurrencyInfo);
+
+      if (!iHaveCurrencyInfo) {
+        return 0;
+      }
+
+      return iHaveSum * iHaveCurrencyInfo.buy;
+    }
+
+    if (iHaveCurrency === 'UAH' && iNeedCurrency !== 'UAH') {
+      const iNeedCurrencyInfo = this.currencies().find(
+        (currency) => currency.ccy === iNeedCurrency,
+      );
+      if (!iNeedCurrencyInfo) {
+        return 0;
+      }
+
+      return iHaveSum / iNeedCurrencyInfo.sale;
+    }
+
+    return iHaveSum;
   }
 
   private handleError(error: HttpErrorResponse) {
