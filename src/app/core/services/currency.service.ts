@@ -1,12 +1,12 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { Currencies } from '../../types/currencies';
 import { catchError, tap, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
+  private readonly URL = '/api/currencies';
   // private readonly URL = '/api/p24api/pubinfo?json&exchange&coursid=5';
-  private readonly URL = 'https://api.privatbank.ua/p24api/pubinfo?json&exchange&coursid=5';
 
   private readonly _currencies = signal<Currencies>([]);
 
