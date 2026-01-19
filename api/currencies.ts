@@ -1,3 +1,5 @@
+import fetch from 'node-fetch';
+
 export default async function handler(req, res) {
   try {
     const response = await fetch(
@@ -5,10 +7,9 @@ export default async function handler(req, res) {
     );
 
     const data = await response.json();
-
     res.status(200).json(data);
-  } catch (error) {
-    console.error('Proxy error:', error);
+  } catch (e) {
+    console.error('Proxy error:', e);
     res.status(500).json({ error: 'Proxy failed' });
   }
 }
