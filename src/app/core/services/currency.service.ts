@@ -5,8 +5,8 @@ import { catchError, tap, throwError } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class CurrencyService {
-  private readonly URL = '/api/currencies';
-  // private readonly URL = '/api/p24api/pubinfo?json&exchange&coursid=5';
+  // private readonly URL = '/api/currencies';
+  private readonly URL = '/api/p24api/pubinfo?json&exchange&coursid=5';
 
   private readonly _currencies = signal<Currencies>([]);
 
