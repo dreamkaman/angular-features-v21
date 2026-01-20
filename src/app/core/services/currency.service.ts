@@ -50,7 +50,6 @@ export class CurrencyService {
     }
 
     if (iHaveCurrency !== 'UAH' && iNeedCurrency === 'UAH') {
-
       const iHaveCurrencyInfo = this.currencies().find(
         (currency) => currency.ccy === iHaveCurrency,
       );
